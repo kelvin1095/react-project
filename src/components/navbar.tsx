@@ -1,6 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import "./header.module.css";
+// import "./navbar.module.css";
 
 export default function Navigate() {
   return (

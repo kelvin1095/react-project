@@ -1,5 +1,5 @@
 import React from "react";
-import "./footer.module.css";
+// import "./footer.module.css";
 
 const contact = [
   {

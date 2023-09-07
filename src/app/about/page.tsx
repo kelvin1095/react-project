@@ -1,5 +1,3 @@
-import "./about.module.css";
-
 export const metadata = {
   title: "About",
 };

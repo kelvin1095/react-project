@@ -1,14 +1,14 @@
 import { Suspense } from "react";
 import Loading from "../../loading.tsx";
-import PokemonName from "./pokemon.jsx";
+import PokemonName from "./pokemon.tsx";
 
 export const metadata = {
   title: "Pokemon",
   description: "My Pokemon App",
 };
 
-export default function Page(props) {
-  const id = props.params.id;
+export default function Page(props: { params: { id: string } }) {
+  const id: string = props.params.id;
   return (
     <main>
       <Suspense fallback={<Loading />}>

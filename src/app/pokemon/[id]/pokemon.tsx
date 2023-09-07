@@ -10,7 +10,7 @@ const pool = new Pool({
   port: 5432,
 });
 
-async function testPostgres(id) {
+async function testPostgres(id: string) {
   let client;
   let result;
 
@@ -34,14 +34,14 @@ async function testPostgres(id) {
   }
 }
 
-export default async function PokemonData(props) {
+export default async function PokemonData(props: { pokedexnumber: string }) {
   const data = await testPostgres(props.pokedexnumber);
 
-  console.log(data);
+  // console.log(data);
 
   return (
-    <div id="pokemonDisplay">
-      <div id="pokemonTitle">
+    <div id="pokemonDisplay" className="w-3/4 border-solid border-2 border-black p-1 mx-auto">
+      <div id="pokemonTitle" className="text-center text-3xl font-serif">
         <h3>
           #{data[0].pokedexnumber.toString().padStart(4, "0")} {data[0].name}
         </h3>
@@ -49,9 +49,8 @@ export default async function PokemonData(props) {
       <div id="pokemonImage">
         <Image src={"/PokemonHome/" + data[0].pokemonimagefilename} alt={data[0].name} height={512} width={512} />
       </div>
-      <div id="buttonContainer"></div>
-      <div id="pokemonType" class="infoTable">
-        <table>
+      <div id="pokemonType">
+        <table className="w-full table-fixed text-center border-solid border-2 border-black mt-1">
           <thead>
             <tr>
               <th>Type</th>
@@ -60,15 +59,16 @@ export default async function PokemonData(props) {
           <tbody>
             <tr>
               <td>
-                <div id="type1">{data[0].type1}</div>
-                <div id="type2">{data[0].type2 || ""}</div>
+                <div>
+                  {data[0].type1} {data[0].type2 || ""}
+                </div>
               </td>
             </tr>
           </tbody>
         </table>
       </div>
-      <div id="pokemonInfo" class="infoTable">
-        <table>
+      <div id="pokemonInfo">
+        <table className="w-full table-fixed text-center border-solid border-2 border-black mt-1">
           <thead>
             <tr>
               <th>Height</th>
@@ -83,8 +83,8 @@ export default async function PokemonData(props) {
           </tbody>
         </table>
       </div>
-      <div id="pokemonAbility" class="infoTable">
-        <table>
+      <div id="pokemonAbility">
+        <table className="w-full table-fixed text-center border-solid border-2 border-black mt-1">
           <thead>
             <tr>
               <th>Ability 1</th>
@@ -101,8 +101,8 @@ export default async function PokemonData(props) {
           </tbody>
         </table>
       </div>
-      <div id="pokemonStats" class="infoTable">
-        <table>
+      <div id="pokemonStats">
+        <table className="w-full table-fixed text-center border-solid border-2 border-black mt-1">
           <thead>
             <tr>
               <th>HP</th>
