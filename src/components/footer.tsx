@@ -20,10 +20,15 @@ const contact = [
   },
 ];
 
-function ContactLinks(props) {
+interface Contact {
+  site: string;
+  link: string;
+}
+
+function ContactLinks(props: { links: Contact[] }) {
   const separator = " | ";
 
-  return props.links.map((contactItem, index) => (
+  return props.links.map((contactItem: Contact, index: number) => (
     <React.Fragment key={contactItem.site}>
       {index > 0 && separator}
       <a href={contactItem.link}>{contactItem.site}</a>
@@ -34,9 +39,13 @@ function ContactLinks(props) {
 export default function Footer() {
   return (
     <footer>
-      <h1>Keep in Touch</h1>
-      <div id="contactInfo">
-        <ContactLinks links={contact} />
+      <div className="-bottom-0 text-center bg-gray-700 text-gray-100 p-10">
+        <div className="text-4xl mb-10">
+          <h1>Keep in Touch</h1>
+        </div>
+        <div>
+          <ContactLinks links={contact} />
+        </div>
       </div>
     </footer>
   );

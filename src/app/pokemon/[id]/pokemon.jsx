@@ -15,10 +15,10 @@ async function testPostgres(id) {
   let result;
 
   try {
+    await new Promise((resolve) => setTimeout(resolve, 3000));
     client = await pool.connect();
     result = await client.query("SELECT * FROM pokemon where pokedexnumber = $1;", [id]);
     console.log("Connected to PostgreSQL successfully!", result.rows[0].name);
-    await new Promise((resolve) => setTimeout(resolve, 3000));
   } catch (error) {
     console.error("Error connecting to PostgreSQL:", error);
     result = "ERROR";

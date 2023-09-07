@@ -29,7 +29,7 @@ export default function Home() {
         <div>
           <h1>Work Experience</h1>
           <ul>
-            <li class="workExperience">
+            <li className="workExperience">
               <h2>First Derivatives</h2>
               <h3>Data Scientist</h3>
               <ul>
@@ -58,7 +58,7 @@ export default function Home() {
                 </li>
               </ul>
             </li>
-            <li class="workExperience">
+            <li className="workExperience">
               <h2>Australian Red Cross</h2>
               <h3>Volunteer Data Scientist</h3>
               <ul>
@@ -69,7 +69,7 @@ export default function Home() {
                 <li>Build models to find patterns and trends to help deliver insights to various teams</li>
               </ul>
             </li>
-            <li class="workExperience">
+            <li className="workExperience">
               <h2>The University of Sydney</h2>
               <h3>Data Science Tutor</h3>
               <ul>
@@ -88,13 +88,11 @@ export default function Home() {
         <div>
           <h1>Education</h1>
           <ul>
-            <li class="education">
+            <li className="education">
               <h2>The University of Sydney</h2>
-              <h3>
-                Bachelor of Science <nobr>(Advance Mathematics) (Honours)</nobr>
-              </h3>
+              <h3>Bachelor of Science (Advance Mathematics) (Honours)</h3>
               <h4>Honours in Statistics (First Class), Major in Mathematics & Statistics</h4>
-              <div class="educationDescription">
+              <div className="educationDescription">
                 <p>
                   My academic pursuits have honed my statistical modeling and data analysis skills, driving my
                   enthusiasm for applying these proficiencies in practical contexts.
@@ -136,11 +134,11 @@ export default function Home() {
                 </ul>
               </div>
             </li>
-            <li class="education">
+            <li className="education">
               <h2>Hokkaido University</h2>
               <h3>Exchange Semester</h3>
               <h4>HUSTEP Exchange Program</h4>
-              <div class="educationDescription">
+              <div className="educationDescription">
                 <p>Scholarships: JASSO Scholarship, International Exchange Outbound Scholarship</p>
               </div>
             </li>
@@ -157,7 +155,15 @@ export default function Home() {
             <li>SQL</li>
             <li>HTML</li>
             <li>CSS</li>
+            <ul>
+              <li>Tailwind CSS</li>
+              <li>SCSS</li>
+              <li>SASS</li>
+            </ul>
             <li>JavaScript</li>
+            <ul>
+              <li>Typescript</li>
+            </ul>
             <li>React</li>
             <li>Svelte</li>
             <li>Docker</li>
