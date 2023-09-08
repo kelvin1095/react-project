@@ -7,12 +7,26 @@ export const metadata = {
   description: "My Pokemon App",
 };
 
-export default function Page(props: { params: { id: string } }) {
+async function getPokemonData(id: string) {
+  const data = await fetch("http://localhost:3000/api/" + id, {
+    next: {
+      revalidate: 0,
+    },
+  });
+  // console.log("pokemon/[id]/page.tsx getPokemonData", data);
+  return data.json();
+}
+
+export default async function Page(props: { params: { id: string } }) {
   const id: string = props.params.id;
+
+  const data = await getPokemonData(id);
+  console.log("page.tsx Page");
+
   return (
     <main>
       <Suspense fallback={<Loading />}>
-        <PokemonName pokedexnumber={id} />
+        <PokemonName data={data} />
       </Suspense>
     </main>
   );

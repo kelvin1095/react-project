@@ -1,53 +1,62 @@
-const { Pool } = require("pg");
-import { notFound } from "next/navigation";
+"use client";
+
 import Image from "next/image";
+import React from "react";
 
-const pool = new Pool({
-  user: "postgres",
-  host: "localhost",
-  database: "postgres",
-  password: "password",
-  port: 5432,
-});
+import FormButton from "./forms.tsx";
 
-async function testPostgres(id: string) {
-  let client;
-  let result;
-
-  try {
-    await new Promise((resolve) => setTimeout(resolve, 3000));
-    client = await pool.connect();
-    result = await client.query("SELECT * FROM pokemon where pokedexnumber = $1;", [id]);
-    console.log("Connected to PostgreSQL successfully!", result.rows[0].name);
-  } catch (error) {
-    console.error("Error connecting to PostgreSQL:", error);
-    result = "ERROR";
-  } finally {
-    if (client) {
-      client.release();
-    }
-    if (result === "ERROR") {
-      notFound();
-    } else {
-      return result.rows;
-    }
-  }
+interface PokemonInfo {
+  pokedexnumber: number;
+  name: string;
+  form: string;
+  pokemonimagefilename: string;
+  type1: string;
+  type2?: string;
+  height: string;
+  weight: string;
+  ability1: string;
+  ability2?: string;
+  hiddenability?: string;
+  hp: number;
+  att: number;
+  def: number;
+  spa: number;
+  spd: number;
+  spe: number;
 }
 
-export default async function PokemonData(props: { pokedexnumber: string }) {
-  const data = await testPostgres(props.pokedexnumber);
+function formNameDisplay(form: string) {
+  let formDisplay = "";
+  if (form !== null) {
+    formDisplay = "(" + form + ")";
+  }
+  return formDisplay;
+}
 
-  // console.log(data);
+export default function PokemonData(props: { data: PokemonInfo[] }) {
+  const data = props.data;
+  console.log("pokemon.tsx PokemonData");
+
+  const [index, setIndex] = React.useState<number>(0);
 
   return (
     <div id="pokemonDisplay" className="w-3/4 border-solid border-2 border-black p-1 mx-auto">
       <div id="pokemonTitle" className="text-center text-3xl font-serif">
         <h3>
-          #{data[0].pokedexnumber.toString().padStart(4, "0")} {data[0].name}
+          #{data[index].pokedexnumber.toString().padStart(4, "0")} {data[index].name}{" "}
+          {formNameDisplay(data[index].form)}
         </h3>
       </div>
       <div id="pokemonImage">
-        <Image src={"/PokemonHome/" + data[0].pokemonimagefilename} alt={data[0].name} height={512} width={512} />
+        <Image
+          src={"/PokemonHome/" + data[index].pokemonimagefilename}
+          alt={data[index].name}
+          height={512}
+          width={512}
+        />
+      </div>
+      <div id="buttonContainer" className="text-center">
+        <FormButton forms={data.length} setIndex={setIndex} />
       </div>
       <div id="pokemonType">
         <table className="w-full table-fixed text-center border-solid border-2 border-black mt-1">
@@ -60,7 +69,7 @@ export default async function PokemonData(props: { pokedexnumber: string }) {
             <tr>
               <td>
                 <div>
-                  {data[0].type1} {data[0].type2 || ""}
+                  {data[index].type1} {data[index].type2 || ""}
                 </div>
               </td>
             </tr>
@@ -77,8 +86,8 @@ export default async function PokemonData(props: { pokedexnumber: string }) {
           </thead>
           <tbody>
             <tr>
-              <td>{data[0].height} m</td>
-              <td>{data[0].weight} kg</td>
+              <td>{data[index].height} m</td>
+              <td>{data[index].weight} kg</td>
             </tr>
           </tbody>
         </table>
@@ -94,9 +103,9 @@ export default async function PokemonData(props: { pokedexnumber: string }) {
           </thead>
           <tbody>
             <tr>
-              <td>{data[0].ability1}</td>
-              <td>{data[0].ability2 || ""}</td>
-              <td>{data[0].hiddenability || ""}</td>
+              <td>{data[index].ability1}</td>
+              <td>{data[index].ability2 || ""}</td>
+              <td>{data[index].hiddenability || ""}</td>
             </tr>
           </tbody>
         </table>
@@ -115,12 +124,12 @@ export default async function PokemonData(props: { pokedexnumber: string }) {
           </thead>
           <tbody>
             <tr>
-              <td>{data[0].hp}</td>
-              <td>{data[0].att}</td>
-              <td>{data[0].def}</td>
-              <td>{data[0].spa}</td>
-              <td>{data[0].spd}</td>
-              <td>{data[0].spe}</td>
+              <td>{data[index].hp}</td>
+              <td>{data[index].att}</td>
+              <td>{data[index].def}</td>
+              <td>{data[index].spa}</td>
+              <td>{data[index].spd}</td>
+              <td>{data[index].spe}</td>
             </tr>
           </tbody>
         </table>
