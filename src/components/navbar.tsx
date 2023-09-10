@@ -17,6 +17,9 @@ export default function Navigate() {
             <Link href="/about">About</Link>
           </li>
           <li>
+            <Link href="/koi">Koi Fish</Link>
+          </li>
+          <li>
             <Link href="/lite">Lite</Link>
           </li>
           <li>

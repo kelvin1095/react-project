@@ -35,8 +35,6 @@ function formNameDisplay(form: string) {
 
 export default function PokemonData(props: { data: PokemonInfo[] }) {
   const data = props.data;
-  console.log("pokemon.tsx PokemonData");
-
   const [index, setIndex] = React.useState<number>(0);
 
   return (

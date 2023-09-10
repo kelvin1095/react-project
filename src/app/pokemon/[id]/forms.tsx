@@ -3,7 +3,6 @@ type SetIndexFunction = (count: number) => void;
 export default function FormButton(props: { forms: number; setIndex: SetIndexFunction }) {
   const numbers = Array.from({ length: props.forms }, (_, index) => index + 1);
 
-  console.log("forms.tsx: FormButton");
   return (
     <div>
       {numbers.map((number: number) => (

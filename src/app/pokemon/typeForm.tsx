@@ -1,9 +1,10 @@
 "use client";
 
-import React, { useState, Suspense } from "react";
+import React, { useState } from "react";
+import { notFound } from "next/navigation";
+import Link from "next/link";
 
 import TypeOption from "./type.tsx";
-import SearchResults from "./typeQuery.tsx";
 
 let types = [
   {
@@ -84,7 +85,13 @@ let types = [
   },
 ];
 
-async function testPostgres(type1: string, type2: string) {
+interface PokemonInfo {
+  pokedexnumber: number;
+  name: string;
+  form: string;
+}
+
+async function fetchPokemonList(type1: string, type2: string) {
   const url = `/api/pokemonList`;
   const response = await fetch(url, {
     method: "POST",
@@ -94,8 +101,6 @@ async function testPostgres(type1: string, type2: string) {
     body: JSON.stringify({ type1, type2 }),
   });
 
-  console.log(response);
-
   if (response.ok) {
     return response.json();
   } else {
@@ -103,11 +108,19 @@ async function testPostgres(type1: string, type2: string) {
   }
 }
 
+function formNameDisplay(form: string) {
+  let formDisplay = "";
+  if (form !== null) {
+    formDisplay = "(" + form + ")";
+  }
+  return formDisplay;
+}
+
 export default function TypeForm() {
-  console.log("TypeForm");
   const [primaryType, setPrimaryValue] = useState<string>("");
   const [secondaryType, setSecondaryValue] = useState<string>("");
-  // const [searchResults, setSearchResults] = useState([]);
+  const [searchResults, setSearchResults] = useState([]);
+  const [formSubmitted, setFormSubmitted] = useState(false);
 
   const primaryDropdownChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setPrimaryValue(event.target.value);
@@ -118,34 +131,52 @@ export default function TypeForm() {
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    console.log("Selected value:", primaryType, secondaryType);
     try {
-      const data = await testPostgres(primaryType, secondaryType);
-      console.log(data);
+      const data = await fetchPokemonList(primaryType, secondaryType);
+      setSearchResults(data);
     } catch (error) {
-      // Handle the error, e.g., show an error message to the user
       console.error(error);
+      notFound();
     }
+    setFormSubmitted(true);
   };
 
   return (
     <div>
-      <form id="selectType" onSubmit={handleSubmit}>
-        <label>
+      <form id="selectType" onSubmit={handleSubmit} className="text-center bg-s">
+        <label className="p-3">
           Type 1:
           <select name="primaryType" onChange={primaryDropdownChange}>
             <TypeOption types={types} />
           </select>
         </label>
-        <label>
+        <label className="p-3">
           Type 2:
           <select name="secondaryType" onChange={secondaryDropdownChange}>
             <TypeOption types={types} />
           </select>
         </label>
-        <button type="submit">Submit</button>
+        <button type="submit" className="p-3">
+          Submit
+        </button>
       </form>
-      {/* <SearchResults type1={primaryType} type2={secondaryType} /> */}
+
+      <div className="pt-10">
+        <h2 className="text-center text-2xl pb-5">Search Results</h2>
+        {formSubmitted && searchResults.length === 0 ? (
+          <h3 className="text-center text-xl mt-20">No Results</h3>
+        ) : (
+          <ul>
+            {searchResults.map((result: PokemonInfo, index: number) => (
+              <li key={index}>
+                <Link href={"/pokemon/" + result.pokedexnumber.toString().padStart(4, "0")}>
+                  #{result.pokedexnumber.toString().padStart(4, "0")} - {result.name} {formNameDisplay(result.form)}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
     </div>
   );
 }

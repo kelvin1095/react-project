@@ -12,7 +12,8 @@ const pool = new Pool({
 
 export async function GET(request: Request, context: { params: { id: string } }, response: Response) {
   const id: string = context.params.id;
-  console.log("route.tsx", id);
+
+  // await new Promise((resolve) => setTimeout(resolve, 3000));
 
   let result;
 

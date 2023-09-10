@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import { Ysabeau, Cormorant, Fira_Code } from "next/font/google";
 
 import Header from "../components/header.tsx";
 import Footer from "../components/footer.tsx";
 import Navbar from "../components/navbar.tsx";
+import Loading from "./loading.tsx";
 
 import "./globals.css";
 
@@ -36,11 +38,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         <div className="flex flex-col h-screen">
           <Header />
-          <div className="flex-grow max-w-screen-lg flex justify-between my-2 mx-auto">
+          <div className="flex-grow w-[1024px] flex justify-between my-2 mx-auto">
             <div className="flex-grow w-20">
               <Navbar />
             </div>
-            <div className="w-8/12 max-w-screen-lg mx-auto">{children}</div>
+            <div className="w-8/12 max-w-screen-lg mx-auto">
+              <Suspense fallback={<Loading />}>{children}</Suspense>
+            </div>
             <div className="flex-grow w-20"></div>
           </div>
           <Footer />
