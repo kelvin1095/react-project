@@ -11,7 +11,7 @@ export default function Main() {
     <main>
       <h1>Username:</h1>
       <h1>Password:</h1>
-      <Link href="signup">Sign up!</Link>
+      <Link href="/signup">Sign up!</Link>
     </main>
   );
 }

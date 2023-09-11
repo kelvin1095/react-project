@@ -39,7 +39,7 @@ function ContactLinks(props: { links: Contact[] }) {
 export default function Footer() {
   return (
     <footer>
-      <div className="-bottom-0 text-center bg-gray-700 text-gray-100 p-10">
+      <div className="text-center bg-gray-700 text-gray-100 p-10">
         <div className="text-4xl mb-10">
           <h1>Keep in Touch</h1>
         </div>
