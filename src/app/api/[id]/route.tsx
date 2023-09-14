@@ -1,3 +1,4 @@
+import { notFound } from "next/navigation";
 import { NextResponse } from "next/server";
 
 const { Pool } = require("pg");
@@ -10,19 +11,31 @@ const pool = new Pool({
   port: 5432,
 });
 
+let minPokedexNumber: number = 1;
+let maxPokedexNumber: number = 1010;
+
 export async function GET(request: Request, context: { params: { id: string } }, response: Response) {
-  const id: string = context.params.id;
+  if (parseInt(context.params.id) >= minPokedexNumber && parseInt(context.params.id) <= maxPokedexNumber) {
+    const id: string = context.params.id;
 
-  // await new Promise((resolve) => setTimeout(resolve, 3000));
+    // await new Promise((resolve) => setTimeout(resolve, 3000));
 
-  let result;
+    let result;
+    let status;
 
-  try {
-    const client = await pool.connect();
-    result = await client.query("SELECT * FROM pokemon WHERE pokedexnumber = $1;", [id]);
-    client.release();
-  } catch (error) {
-    console.error("Error connecting to PostgreSQL:", error);
+    try {
+      const client = await pool.connect();
+      result = await client.query("SELECT * FROM pokemon WHERE pokedexnumber = $1;", [id]);
+      // console.log(result);
+      client.release();
+      status = 200;
+    } catch (error) {
+      console.error("Error connecting to PostgreSQL:", error);
+      status = 500;
+    }
+
+    return NextResponse.json(result.rows);
+  } else {
+    return undefined;
   }
-  return NextResponse.json(result.rows);
 }

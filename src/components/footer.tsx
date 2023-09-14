@@ -1,5 +1,5 @@
 import React from "react";
-// import "./footer.module.css";
+import Counter from "./countButton.tsx";
 
 const contact = [
   {
@@ -43,6 +43,7 @@ export default function Footer() {
         <div className="text-4xl mb-10">
           <h1>Keep in Touch</h1>
         </div>
+        <Counter />
         <div>
           <ContactLinks links={contact} />
         </div>
